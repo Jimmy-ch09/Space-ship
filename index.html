@@ -7,6 +7,7 @@
     <style>
         #canvas {
             border: 2px solid black;
+            background-color: rgb(34, 34, 82);
         }
     </style>
 
@@ -18,12 +19,12 @@
         class Bullet {
             x; y; vy; vx; w; h;
             constructor(x, y, vx, vy) {
-                this.w=4; this.h=20;
+                this.w=4; this.h=15;
                 this.x=x; this.y=y;
                 this.vx=vx; this.vy=vy;
             }
             draw() {
-                ctx.fillStyle = 'black';
+                ctx.fillStyle = 'rgb(150, 207, 216)';
                 ctx.fillRect(this.x, this.y, this.w, this.h);
             }
             move() {
@@ -38,6 +39,22 @@
 
         const shipImage = new Image();
         shipImage.src="ship.png";
+
+        const background = new Image();
+        background.src = "fasllingStar.png";
+
+        fetch("fasllingStar.json")
+        .then(r => r.json())
+        .then(data => {
+            background.onload = () => {
+            const frame = data.frames["run_01"].frame;
+            ctx.drawImage(
+                img,
+                frame.x, frame.y, frame.w, frame.h,
+                50, 50, frame.w, frame.h
+            );
+            };
+        });
 
         function _keydown(e) {
             switch (e.key) {
