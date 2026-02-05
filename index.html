@@ -3,35 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space-ship!</title>
+    <title>Spaceship</title>
     <style>
-        #canvas{
+        #canvas {
             border: 2px solid black;
         }
     </style>
+
 </head>
-<body>
-    <canvas id="canvas" width="400" height="400"></canvas>
+<body onkeydown="_keydown(event);" onkeyup="_keyup(event);" >
+    <canvas  id="canvas" width="400" height="400"></canvas>
     <script>
-        const canvas= document.getElementById("canvas");
-        const ctx= canvas.getContext("2d");
 
-        const shipImage= new Image();
-        shipImage.src="ship.png"
-
-        const ship={
-            x:0, y:0, vx:0, vy:0,
-            draw: function(ctx){
-                ctx.drawImage(shipImage, this.x, this.y, 40, 40);
+        class Bullet {
+            x; y; vy; vx; w; h;
+            constructor(x, y, vx, vy) {
+                this.w=4; this.h=20;
+                this.x=x; this.y=y;
+                this.vx=vx; this.vy=vy;
             }
-
+            draw() {
+                ctx.fillStyle = 'black';
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+            }
+            move() {
+                this.x += this.vx;
+                this.y += this.vy;
+            }
         }
 
-        function draw(){
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const SPEED=2;
+
+        const shipImage = new Image();
+        shipImage.src="ship.png";
+
+        function _keydown(e) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    ship.vx=-SPEED;
+                    break;
+                case 'ArrowRight':
+                    ship.vx=SPEED;
+                    break;
+                case ' ':
+                    ship.fire();
+                    break;
+            }
+        }
+
+        function _keyup(e) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    ship.vx=0;
+                    break;
+                case 'ArrowRight':
+                    ship.vx=0;
+                    break;
+            }
+        }
+
+        const ship = {
+            x:200, y:360, w:40, h:40, 
+            vx:0, vy:0,
+            bullets:[],
+            draw: function(ctx) {
+               ctx.drawImage(shipImage, this.x, this.y, this.w, this.h);
+               this.bullets.forEach( (x)=>{
+                    x.draw(ctx);
+               } );
+            },
+            move: function(ctx) {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.bullets.forEach( (x)=>{
+                    x.move(ctx);
+                } );
+            },
+            fire: function() {
+                let b=new Bullet(this.x+this.w/2, this.y, 0, -3);
+                this.bullets.push(b);
+            }
+        }
+
+        //let b=new Bullet(ship.x+ship.w/2,ship.y,0,-3);
+
+        function draw() {
+            ctx.clearRect(0,0,400,400);
             ship.draw(ctx);
+            ship.move(ctx);
             window.requestAnimationFrame(draw);
         }
-        window.requestAnimationFrame(draw)
+        window.requestAnimationFrame(draw);
     </script>
 </body>
 </html>
