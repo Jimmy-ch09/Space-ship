@@ -43,6 +43,10 @@
         const background = new Image();
         background.src = "Backgrounds/FallingStar.png";//Fondo animato
 
+        function randomInt(a, b) {
+            return Math.floor(Math.random() * (b - a + 1)) + a;
+        }
+
 
         
 
@@ -108,7 +112,7 @@
                 "FallingStar_Sprites8.png": { frame: { x: 256, y: 256, w: 128, h: 128 } }
             }
         };
-        
+
         let bgFrames = Object.keys(bgData.frames)
             .sort()
             .map(key => bgData.frames[key]);
@@ -124,7 +128,7 @@
             ctx.drawImage(
                 background,
                 frame.x, frame.y, frame.w, frame.h,
-                0, 0, canvas.width, canvas.height
+                randomInt(0,300), randomInt(0,300), 128, 128
             );
 
             bgCounter++;
