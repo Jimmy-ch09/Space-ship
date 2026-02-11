@@ -58,6 +58,12 @@
                 case 'ArrowRight':
                     ship.vx=SPEED;
                     break;
+                case 'ArrowUp':
+                    ship.vy=-SPEED;
+                    break;
+                case 'ArrowDown':
+                    ship.vy=SPEED;
+                    break;
                 case ' ':
                     ship.fire();
                     break;
@@ -71,6 +77,12 @@
                     break;
                 case 'ArrowRight':
                     ship.vx=0;
+                    break;
+                case 'ArrowUp':
+                    ship.vy=0;
+                    break;
+                case 'ArrowDown':
+                    ship.vy=0;
                     break;
             }
         }
@@ -119,7 +131,7 @@
 
         let bgFrameIndex = 0;
         let bgCounter = 0;
-        let bgSpeed = 6;
+        let bgSpeed = 2;
 
         function drawBackground() {
 
