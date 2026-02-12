@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spaceship</title>
     <style>
+        body{
+            background-color: black;
+        }
         #canvas {
-            border: 2px solid black;
-            background-color: blue;
+            border: 2px solid rgb(181, 181, 181);
+            display: block;
+            margin: 0 auto;
         }
     </style>
 
 </head>
 <body onkeydown="_keydown(event);" onkeyup="_keyup(event);" >
-    <canvas  id="canvas" width="400" height="400"></canvas>
+    <canvas  id="canvas" width="500" height="500"></canvas>
     <script>
 
         class Bullet {
@@ -32,24 +36,51 @@
                 this.y += this.vy;
             }
         }
+        class Bullet2 {
+            x; y; vy; vx; w; h;
+            constructor(x, y, vx, vy) {
+                this.w=16; this.h=50;
+                this.x=x; this.y=y;
+                this.vx=vx; this.vy=vy;
+            }
+            draw() {
+                ctx.fillStyle = 'red';
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+            }
+            move() {
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+        }
+        //nemici
+        class Enemy{
+            
+            
+        }
 
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         const SPEED=2;
+        //Immagini
+        const spazioBack=new Image();
+        spazioBack.src="Backgrounds/Stars_background_Black.png"//fondo
 
         const shipImage = new Image();
-        shipImage.src="ship.png";
+        shipImage.src="ship.png";//nave
 
         const background = new Image();
-        background.src = "Backgrounds/FallingStar.png";//Fondo animato
+        background.src = "Backgrounds/FallingStar.png";//Stella cadente
+
+        const bulletImg = new Image();
+        bulletImg.src = "Bullet.png"//Tipo di sparo
 
         function randomInt(a, b) {
             return Math.floor(Math.random() * (b - a + 1)) + a;
         }
 
-
+        let typeBullet=Bullet;
         
-
+        //Presa dei movimenti
         function _keydown(e) {
             switch (e.key) {
                 case 'ArrowLeft':
@@ -66,6 +97,12 @@
                     break;
                 case ' ':
                     ship.fire();
+                    break;
+                case 'q':
+                    typeBullet=Bullet;
+                    break;
+                case 'e':
+                    typeBullet=Bullet2;
                     break;
             }
         }
@@ -105,12 +142,16 @@
                 } );
             },
             fire: function() {
-                let b=new Bullet(this.x+this.w/2, this.y, 0, -3);
+                let b=new typeBullet(this.x+this.w/2, this.y, 0, -3);
                 this.bullets.push(b);
             }
         }
 
         //let b=new Bullet(ship.x+ship.w/2,ship.y,0,-3);
+
+        //Grafica del gioco
+
+
         const bgData = {
             frames: {
                 "FallingStar_Sprites0.png": { frame: { x: 0,   y: 0,   w: 128, h: 128 } },
@@ -140,7 +181,7 @@
             ctx.drawImage(
                 background,
                 frame.x, frame.y, frame.w, frame.h,
-                randomInt(0,300), randomInt(0,300), 128, 128
+                randomInt(0,canvas.height), randomInt(0,canvas.width), 128, 128
             );
 
             bgCounter++;
@@ -157,7 +198,8 @@
 
 
         function draw() {
-            ctx.clearRect(0,0,400,400);
+            ctx.clearRect(0,0,500,500);
+            ctx.drawImage(spazioBack, 0, 0, canvas.width, canvas.height);
             drawBackground();
             ship.draw(ctx);
             ship.move(ctx);
