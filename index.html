@@ -68,6 +68,9 @@
         const shipImage = new Image();
         shipImage.src="ship.png";//nave
 
+        const shipImage2 = new Image();
+        shipImage2.src="images/ship.png";//nave animata
+
         const background = new Image();
         background.src = "Backgrounds/FallingStar.png";//Stella cadente
 
@@ -83,15 +86,19 @@
         //Presa dei movimenti
         function _keydown(e) {
             switch (e.key) {
+                case 'a':
                 case 'ArrowLeft':
                     ship.vx=-SPEED;
                     break;
+                case 'd':
                 case 'ArrowRight':
                     ship.vx=SPEED;
                     break;
+                case 'w':
                 case 'ArrowUp':
                     ship.vy=-SPEED;
                     break;
+                case 's':
                 case 'ArrowDown':
                     ship.vy=SPEED;
                     break;
@@ -109,15 +116,19 @@
 
         function _keyup(e) {
             switch (e.key) {
+                case 'a':
                 case 'ArrowLeft':
                     ship.vx=0;
                     break;
+                case 'd':
                 case 'ArrowRight':
                     ship.vx=0;
                     break;
+                case 'w':
                 case 'ArrowUp':
                     ship.vy=0;
                     break;
+                case 's':
                 case 'ArrowDown':
                     ship.vy=0;
                     break;
@@ -151,7 +162,7 @@
 
         //Grafica del gioco
 
-
+        //Bgdata= stella cadente
         const bgData = {
             frames: {
                 "FallingStar_Sprites0.png": { frame: { x: 0,   y: 0,   w: 128, h: 128 } },
