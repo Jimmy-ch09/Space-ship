@@ -12,12 +12,28 @@
             border: 2px solid rgb(181, 181, 181);
             display: block;
             margin: 0 auto;
+            position: absolute;   /* imp */
+            z-index: 1; /*immagine sopra*/
         }
+        .zona {
+            width: 640px;
+            height: 640px;
+            cursor: none;
+            }
+        #fondo {
+            width: 1000px;
+            height: 1000px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0; /* fondo */
+            }
     </style>
 
 </head>
 <body onkeydown="_keydown(event);" onkeyup="_keyup(event);" >
-    <canvas  id="canvas" width="500" height="500"></canvas>
+    <img src="images/misteryman.png" id="fondo">
+    <canvas class="zona" id="canvas" width="1000" height="1000"></canvas>
     <script>
 
         class Bullet {
@@ -57,16 +73,15 @@
             
             
         }
-
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
-        const SPEED=2;
+        const SPEED=6;
         //Immagini
         const spazioBack=new Image();
         spazioBack.src="Backgrounds/Stars_background_Black.png"//fondo
 
-        const shipImage = new Image();
-        shipImage.src="ship.png";//nave
+        const soulImage = new Image();
+        soulImage.src="images/soul.png";//soul
 
         const shipImage2 = new Image();
         shipImage2.src="images/ship.png";//nave animata
@@ -77,33 +92,54 @@
         const bulletImg = new Image();
         bulletImg.src = "Bullet.png"//Tipo di sparo
 
+        const box = {
+            x: 400,
+            y: 300,
+            width: 200,
+            height: 200,
+            angle: 0
+            };
+        function drawBoxLocal() {
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(
+                -box.width/2,
+                -box.height/2,
+                box.width,
+                box.height
+            );
+        }
+        //stato nel gioco
+        let hp=92;
+        const Smovimento=true;
+
         function randomInt(a, b) {
             return Math.floor(Math.random() * (b - a + 1)) + a;
         }
 
         let typeBullet=Bullet;
         
-        //Presa dei movimenti
+        //Presa dei movimenti (aggiustato)
         function _keydown(e) {
             switch (e.key) {
                 case 'a':
                 case 'ArrowLeft':
-                    ship.vx=-SPEED;
+                    soul.vx=-SPEED;
                     break;
                 case 'd':
                 case 'ArrowRight':
-                    ship.vx=SPEED;
+                    soul.vx=SPEED;
                     break;
                 case 'w':
                 case 'ArrowUp':
-                    ship.vy=-SPEED;
+                    soul.vy=-SPEED;
                     break;
                 case 's':
                 case 'ArrowDown':
-                    ship.vy=SPEED;
+                    soul.vy=SPEED;
                     break;
                 case ' ':
-                    ship.fire();
+                    soul.fire();
                     break;
                 case 'q':
                     typeBullet=Bullet;
@@ -118,39 +154,41 @@
             switch (e.key) {
                 case 'a':
                 case 'ArrowLeft':
-                    ship.vx=0;
+                    if (soul.vx < 0) soul.vx = 0;
                     break;
                 case 'd':
                 case 'ArrowRight':
-                    ship.vx=0;
+                    if (soul.vx > 0) soul.vx = 0;
                     break;
                 case 'w':
                 case 'ArrowUp':
-                    ship.vy=0;
+                    if (soul.vy < 0) soul.vy = 0;
                     break;
                 case 's':
                 case 'ArrowDown':
-                    ship.vy=0;
+                    if (soul.vy > 0) soul.vy = 0;
                     break;
             }
         }
-
-        const ship = {
-            x:200, y:360, w:40, h:40, 
+        //Soul (rinominato)
+        const soul = {
+            x:0, y:0, w:40, h:40, 
             vx:0, vy:0,
-            bullets:[],
+            bullets:[],//forse ancora utile
             draw: function(ctx) {
-               ctx.drawImage(shipImage, this.x, this.y, this.w, this.h);
+               ctx.drawImage(soulImage, soul.x - soul.w/2, soul.y - soul.h/2, soul.w, soul.h);
                this.bullets.forEach( (x)=>{
                     x.draw(ctx);
                } );
             },
+            
             move: function(ctx) {
                 this.x += this.vx;
                 this.y += this.vy;
                 this.bullets.forEach( (x)=>{
                     x.move(ctx);
                 } );
+                
             },
             fire: function() {
                 let b=new typeBullet(this.x+this.w/2, this.y, 0, -3);
@@ -209,12 +247,19 @@
 
 
         function draw() {
-            ctx.clearRect(0,0,500,500);
-            ctx.drawImage(spazioBack, 0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
             drawBackground();
-            ship.draw(ctx);
-            ship.move(ctx);
-            window.requestAnimationFrame(draw);
+
+            ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
+            ctx.translate(box.x, box.y);
+            ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
+            drawBoxLocal();
+            soul.draw(ctx)
+            ctx.restore();//cosi ritornano allo stato iniziale
+
+            soul.move(ctx);
+            requestAnimationFrame(draw);
         }
         window.requestAnimationFrame(draw);
     </script>
