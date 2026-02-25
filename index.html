@@ -4,31 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spaceship</title>
-    <style>
-        body{
-            background-color: black;
-        }
-        #canvas {
-            border: 2px solid rgb(181, 181, 181);
-            display: block;
-            margin: 0 auto;
-            position: absolute;   /* imp */
-            z-index: 1; /*immagine sopra*/
-        }
-        .zona {
-            width: 640px;
-            height: 640px;
-            cursor: none;
-            }
-        #fondo {
-            width: 1000px;
-            height: 1000px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 0; /* fondo */
-            }
-    </style>
+    <link href="style.css" rel="stylesheet">
 
 </head>
 <body onkeydown="_keydown(event);" onkeyup="_keyup(event);" >
@@ -83,18 +59,16 @@
         const soulImage = new Image();
         soulImage.src="images/soul.png";//soul
 
-        const shipImage2 = new Image();
-        shipImage2.src="images/ship.png";//nave animata
+        const boneImage= new Image();
+        boneImage.src="images/bone.png";
 
         const background = new Image();
         background.src = "Backgrounds/FallingStar.png";//Stella cadente
 
-        const bulletImg = new Image();
-        bulletImg.src = "Bullet.png"//Tipo di sparo
 
         const box = {
             x: 400,
-            y: 300,
+            y: 400,
             width: 400,
             height: 400,
             angle: 0,
@@ -105,19 +79,10 @@
             }
 
             };
-        function drawBoxLocal() {
-            ctx.strokeStyle = "white";
-            ctx.lineWidth = 4;
-            ctx.strokeRect(
-                -box.width/2,
-                -box.height/2,
-                box.width,
-                box.height
-            );
-        }
-        //stato nel gioco
-        let hp=92;
-        const Smovimento=true;
+        //stato nel gioco/soul
+        const hp=92;
+        let Smovimento="";
+        const typeSoul=["images/soul.png","images/bsoul.png"];
 
 
 
@@ -133,18 +98,22 @@
                 case 'a':
                 case 'ArrowLeft':
                     soul.vx=-SPEED;
+                    Smovimento=true;
                     break;
                 case 'd':
                 case 'ArrowRight':
                     soul.vx=SPEED;
+                    Smovimento=true;
                     break;
                 case 'w':
                 case 'ArrowUp':
                     soul.vy=-SPEED;
+                    Smovimento=true;
                     break;
                 case 's':
                 case 'ArrowDown':
                     soul.vy=SPEED;
+                    Smovimento=true;
                     break;
                 case ' ':
                     soul.fire();
@@ -163,25 +132,41 @@
                 case 'a':
                 case 'ArrowLeft':
                     if (soul.vx < 0) soul.vx = 0;
+                    Smovimento=false;
                     break;
                 case 'd':
                 case 'ArrowRight':
                     if (soul.vx > 0) soul.vx = 0;
+                    Smovimento=false;
                     break;
                 case 'w':
                 case 'ArrowUp':
                     if (soul.vy < 0) soul.vy = 0;
+                    Smovimento=false;
                     break;
                 case 's':
                 case 'ArrowDown':
                     if (soul.vy > 0) soul.vy = 0;
+                    Smovimento=false;
                     break;
             }
         }
+
+        const bone={
+            x:0, y:0, w:60, h:120, 
+            vx:0, vy:0,
+            draw: function(ctx) {
+                ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h)
+            },
+
+
+        }
+
         //Soul (rinominato da ship)
+
         const soul = {
             x:0, y:0, w:40, h:40, 
-            vx:0, vy:0,
+            vx:0, vy:0,hp:92,
             bullets:[],//forse ancora utile
             draw: function(ctx) {
                 ctx.drawImage(soulImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
@@ -203,7 +188,8 @@
                 if (this.x> right) this.x=right;
                 if (this.y< top) this.y=top;
                 if (this.y> bottom) this.y=bottom;
-                
+
+                if (this.x==bone.x && this.y==bone.y) this.hp-=2 ;
                 //};
                 this.bullets.forEach( (x)=>{
                     x.move(ctx);
@@ -216,6 +202,7 @@
                 this.bullets.push(b);
             }
         }
+
 
         //let b=new Bullet(ship.x+ship.w/2,ship.y,0,-3);
 
@@ -277,8 +264,8 @@
             ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
             box.draw(ctx);
             soul.draw(ctx)
+            bone.draw(ctx);
             ctx.restore();//cosi ritornano allo stato iniziale
-
             soul.move(ctx);
             requestAnimationFrame(draw);
         }
