@@ -4,14 +4,19 @@ body{
 #canvas {
     border: 2px solid rgb(181, 181, 181);
     display: block;
+    top:25%;
+    left:25%;
     margin: 0 auto;
     position: absolute;   /* importante */
     z-index: 1; /*immagine sopra*/
 }
+html{
+    cursor: none;
+
+}
 .zona {
     width: 640px;
     height: 640px;
-    cursor: none;
 }
 #fondo {
     width: 1000px;

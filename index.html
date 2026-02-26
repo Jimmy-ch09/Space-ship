@@ -28,7 +28,7 @@
                 this.y += this.vy;
             }
         }
-        class Bullet2 {
+        class whiteBone {
             x; y; vy; vx; w; h;
             constructor(x, y, vx, vy) {
                 this.w=16; this.h=50;
@@ -36,12 +36,12 @@
                 this.vx=vx; this.vy=vy;
             }
             draw() {
-                ctx.fillStyle = 'red';
-                ctx.fillRect(this.x, this.y, this.w, this.h);
+                ctx.drawImage(boneImage, this.x/2, this.y/2, this.w/2, this.h/2);
             }
             move() {
                 this.x += this.vx;
                 this.y += this.vy;
+                //collisione per sparire
             }
         }
         //nemici
@@ -52,6 +52,8 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         const SPEED=6;
+
+        const audioBone= new Audio("sounds/bone-sound.mp3");
         //Immagini
         const spazioBack=new Image();
         spazioBack.src="Backgrounds/Stars_background_Black.png"//fondo
@@ -116,13 +118,14 @@
                     Smovimento=true;
                     break;
                 case ' ':
+                    audioBone.play();
                     soul.fire();
                     break;
                 case 'q':
                     typeBullet=Bullet;
                     break;
                 case 'e':
-                    typeBullet=Bullet2;
+                    typeBullet=whiteBone;
                     break;
             }
         }
