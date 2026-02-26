@@ -36,12 +36,22 @@
                 this.vx=vx; this.vy=vy;
             }
             draw() {
-                ctx.drawImage(boneImage, this.x/2, this.y/2, this.w/2, this.h/2);
+                ctx.drawImage(boneImage, this.x, this.y, this.w, this.h);
             }
             move() {
                 this.x += this.vx;
                 this.y += this.vy;
-                //collisione per sparire
+                let left   = -canvas.width/2 + this.w/2;
+                let right  = canvas.width/2 - this.w/2;
+                let top    = -canvas.height/2 + this.h/2;
+                let bottom = canvas.height/2 - this.h/2;
+
+                if (this.x< left) this.x=left;
+                if (this.x> right) this.x=right;
+                if (this.y< top) this.y=top;
+                if (this.y> bottom) this.y=bottom;
+                
+                //collisione per sparire ora per sparire
             }
         }
         //nemici
@@ -52,7 +62,9 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         const SPEED=6;
-
+        
+        //audio
+        const audioBattle= new Audio("sonds/callofthevoid.mp3")
         const audioBone= new Audio("sounds/bone-sound.mp3");
         //Immagini
         const spazioBack=new Image();
@@ -85,6 +97,7 @@
         const hp=92;
         let Smovimento="";
         const typeSoul=["images/soul.png","images/bsoul.png"];
+
 
 
 
@@ -173,8 +186,8 @@
             bullets:[],//forse ancora utile
             draw: function(ctx) {
                 ctx.drawImage(soulImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
-                this.bullets.forEach( (x)=>{
-                    x.draw(ctx);
+                this.bullets.forEach( (y)=>{
+                    y.draw(ctx);
                } );
             },
             
@@ -194,14 +207,14 @@
 
                 if (this.x==bone.x && this.y==bone.y) this.hp-=2 ;
                 //};
-                this.bullets.forEach( (x)=>{
-                    x.move(ctx);
+                this.bullets.forEach( (y)=>{
+                    y.move(ctx);
                 } );
 
                 
             },
             fire: function() {
-                let b=new typeBullet(this.x+this.w/2, this.y, 0, -3);
+                let b=new typeBullet(this.x, this.y, 0, -3);
                 this.bullets.push(b);
             }
         }
@@ -230,8 +243,8 @@
             .sort()
             .map(key => bgData.frames[key]);
 
-        let bgFrameIndex = 0;
-        let bgCounter = 0;
+        let bgFrameIndex = 2;
+        let bgCounter = 2;
         let bgSpeed = 2;
 
         function drawBackground() {
@@ -255,6 +268,12 @@
             }
         }
 
+        const attack1={
+
+        };
+        const attac2={
+            //attacchi da aggiungere dopo il primo turno
+            }
 
 
         function draw() {
@@ -263,7 +282,7 @@
             drawBackground();
 
             ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
-            ctx.translate(box.x, box.y);
+            ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
             ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
             box.draw(ctx);
             soul.draw(ctx)
