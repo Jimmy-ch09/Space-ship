@@ -1,12 +1,13 @@
 body{
     background-color: black;
+    
 }
 #canvas {
     border: 2px solid rgb(181, 181, 181);
     display: block;
-    top:25%;
-    left:25%;
-    margin: 0 auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
     position: absolute;   /* importante */
     z-index: 1; /*immagine sopra*/
 }
@@ -19,10 +20,11 @@ html{
     height: 640px;
 }
 #fondo {
-    width: 1000px;
-    height: 1000px;
-    margin: 0 auto;
-    position: absolute;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    
     top: 0;
     left: 0;
     z-index: 0; /* immagine sotto */
