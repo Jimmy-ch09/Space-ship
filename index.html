@@ -208,18 +208,17 @@
 
                 if (this.x==bone.x && this.y==bone.y) {
                     let now=Date.now();
-                    let sound = audioDamage.cloneNode();
-                    sound.play();
                     if (now-this.timerHit>100){
                         this.hp-=1;
                         this.timerHit=now;
                         console.log(this.hp,this.timerHit);
-                        // if (this.hp==0) momento game over
+                        let sound = audioDamage.cloneNode();
+                        sound.play();
+                        if (this.hp==0) console.log("Game over");
                     };
                     
 
                 } ;
-                //};
                 this.bullets.forEach( (y)=>{
                     y.move(ctx);
                 } );
@@ -241,7 +240,12 @@
 
 
         }
-
+        let bones = [];
+        function spawnHorizontalLine() {
+            for (let i = -box.width/2; i <= box.width/2; i += 40) {
+                bones.push(new whiteBone(i, -box.height/2, 0, 2));
+            }
+        }
 
         //let b=new Bullet(ship.x+ship.w/2,ship.y,0,-3);
 
