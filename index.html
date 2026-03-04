@@ -28,6 +28,7 @@
                 this.y += this.vy;
             }
         }
+        //da separare
         class whiteBone {
             x; y; vy; vx; w; h;
             constructor(x, y, vx, vy) {
@@ -215,8 +216,7 @@
                         let sound = audioDamage.cloneNode();
                         sound.play();
                         if (this.hp==0) console.log("Game over");
-                    };
-                    
+                    };                  
 
                 } ;
                 this.bullets.forEach( (y)=>{
@@ -295,7 +295,7 @@
             }
         }
 
-//let timegiro=0;
+        //let timegiro=0;
         function draw() {
             ctx.clearRect(0,0,canvas.width,canvas.height);
 
