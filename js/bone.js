@@ -24,7 +24,7 @@ export class whiteBone {
         this.vx=vx; this.vy=vy;
     }
     draw(ctx) {
-        ctx.drawImage(boneImage, this.x, this.y, this.w, this.h);
+        ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
     }
     move() {
         this.x += this.vx;
@@ -48,6 +48,8 @@ export const bone={
     vx:0, vy:0,
     draw: function(ctx) {
         ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h)
+
+
     },
 
 

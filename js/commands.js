@@ -1,4 +1,5 @@
-export function setInputs(soul, audioBone, Bullet, whiteBone){
+
+export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode){
     const SPEED = 6;
     let typeBullet = Bullet;
     let Smovimento = false;
@@ -17,8 +18,13 @@ export function setInputs(soul, audioBone, Bullet, whiteBone){
                 break;
             case 'w':
             case 'ArrowUp':
-                soul.vy=-SPEED;
+                if (soul.mode==="red")soul.vy=-SPEED;
                 Smovimento=true;
+                if (soul.mode === "blue" && soul.onGround){
+                    soul.vy = soul.jumpPower;
+                    soul.jumping = true;
+                    soul.jumpHoldTime = 0;
+                }
                 break;
             case 's':
             case 'ArrowDown':
@@ -30,10 +36,29 @@ export function setInputs(soul, audioBone, Bullet, whiteBone){
                 soul.fire();
                 break;
             case 'q':
+                //blue mode
+                audioSoulmode.play();
+                soul.mode="blue"
                 typeBullet=Bullet;
                 break;
             case 'e':
+                //red mode
+                audioSoulmode.play();
+                soul.mode="red"
+                soul.vy = 0;
+                soul.onGround = true;
+                soul.jumping = false;
+                soul.jumpHoldTime = 0;
+
                 typeBullet=whiteBone;
+                break;
+            case 'c':
+                //blue mode
+                if (soul.heal!=0){
+                    soul.hp+=92;
+                    soul.heal-=1;
+                    if(soul.hp>92)soul.hp=92;
+                };
                 break;
         }
     });
@@ -54,6 +79,7 @@ export function setInputs(soul, audioBone, Bullet, whiteBone){
             case 'ArrowUp':
                 if (soul.vy < 0) soul.vy = 0;
                 Smovimento=false;
+                soul.jumping = false;
                 break;
             case 's':
             case 'ArrowDown':
