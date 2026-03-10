@@ -1,11 +1,12 @@
-import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneImage,background,audioSoulmode,audioBlaster} from "./assets.js";
+import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneImage,background,audioSoulmode,audioBlaster,audioHeal} from "./assets.js";
 import {Bullet, whiteBone,bone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
+import { jumpAttack } from "./jumpattack.js";
 import { setInputs } from "./commands.js";
 
 battleSong.play();
-setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster);
+setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster,audioHeal);
 //nemici
 class Enemy{
     
@@ -26,21 +27,6 @@ function randomInt(a, b) {
 
 //Soul (rinominato da ship)
 
-function attackA() {
-    bullets=[];
-    let x = randomInt(-box.width/2, box.width/2);
-    let y = -box.height/2;
-    bullets.push(new typeBullet(x, y, 0, 3));
-
-
-
-}
-let bones = [];
-function spawnHorizontalLine() {
-    for (let i = -box.width/2; i <= box.width/2; i += 40) {
-        bones.push(new whiteBone(i, -box.height/2, 0, 2));
-    }
-}
 
 //let b=new Bullet(ship.x+ship.w/2,ship.y,0,-3);
 
@@ -60,6 +46,22 @@ function drawHitbox(ctx, obj) {
 
 //let timegiro=0;
 let angle=0;
+let bones=[];
+let lastAttack = 0;
+
+function updateAttacks() {
+
+    let now = Date.now();
+
+    if (now - lastAttack > 1000) {
+        jumpAttack(bones);
+        lastAttack = now;
+    }
+
+}
+
+
+
 
 function draw() {
     if (battleSong.currentTime<10.6){
@@ -80,6 +82,7 @@ function draw() {
         soul.x=500;
         soul.y=600;
         soul.draw(ctx)
+        drawHitbox(ctx,soul)
         requestAnimationFrame(draw);
 
     };
@@ -101,9 +104,11 @@ function draw() {
         box.draw(ctx);
         bone.draw(ctx);
         soul.draw(ctx);
-        drawHitbox(ctx,bone)
-        drawHitbox(ctx,soul)
-        drawHitbox(ctx,whiteBone)
+        updateAttacks();
+        bones.forEach(b => {
+            b.move();
+            b.draw(ctx);
+        });
         //let now=Date.now();
         //if (now-timegiro>1000){
         //    box.angle+=1;

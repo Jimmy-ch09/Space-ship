@@ -3,10 +3,10 @@ import {box} from "./caja.js";
 import { bone,Bullet, whiteBone } from "./bone.js";
 import { collision } from "./colisiones.js";
 export const soul = {
-    x:0, y:0, w:40, h:40, 
+    x:0, y:0, w:35, h:35, 
     vx:0, vy:0,hp:92,timerHit:0, heal:3,
     //modo azul
-    mode:"red", gravity:0.3, jumpPower:-7, jumpHoldForce:-0.25, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
+    mode:"red", gravity:0.35, jumpPower:-7.5, jumpHoldForce:-0.3, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
 
     bullets:[],//forse ancora utile
     draw: function(ctx) {
@@ -69,6 +69,7 @@ export const soul = {
         
     },
     fire: function() {
+
         let b=new whiteBone(this.x, this.y, 1, -3); //(x,x,vx,vy);
         this.bullets.push(b);
     }

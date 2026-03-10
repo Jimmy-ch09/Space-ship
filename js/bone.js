@@ -22,7 +22,7 @@ export class Bullet {
 export class whiteBone {
     x; y; vy; vx; w; h;
     constructor(x, y, vx, vy) {
-        this.w=30; this.h=100;
+        this.w=20; this.h=80;
         this.x=x; this.y=y;
         this.vx=vx; this.vy=vy;
     }
@@ -37,8 +37,8 @@ export class whiteBone {
         let top    = -box.height/2 + this.h/2;
         let bottom = box.height/2 - this.h/2;
 
-        if (this.x< left) this.x=left;
-        if (this.x> right) this.x=right;
+        //if (this.x< left) this.x=left;
+        //if (this.x> right) this.x=right;
         if (this.y< top) this.y=top;
         if (this.y> bottom) this.y=bottom;
         if (collision(this,soul)) {

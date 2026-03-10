@@ -1,5 +1,5 @@
 
-export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster){
+export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster,audioHeal){
     const SPEED = 6;
     let typeBullet = Bullet;
     let Smovimento = false;
@@ -56,6 +56,7 @@ export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audio
             case 'c':
                 //blue mode
                 if (soul.heal!=0){
+                    audioHeal.play()
                     soul.hp+=92;
                     soul.heal-=1;
                     if(soul.hp>92)soul.hp=92;
