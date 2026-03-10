@@ -51,7 +51,7 @@ export const soul = {
 
         if (collision(this,bone)) {
             let now=Date.now();
-            if (now-this.timerHit>100){
+            if (now-this.timerHit>50){ 
                 this.hp-=1;
                 this.timerHit=now;
                 console.log(this.hp,this.timerHit);
@@ -63,12 +63,13 @@ export const soul = {
         } ;
         this.bullets.forEach( (y)=>{
             y.move(ctx);
+            
         } );
 
         
     },
     fire: function() {
-        let b=new whiteBone(this.x, this.y, 0, -3);
+        let b=new whiteBone(this.x, this.y, 1, -3); //(x,x,vx,vy);
         this.bullets.push(b);
     }
 }

@@ -3,7 +3,6 @@ body{
     
 }
 #canvas {
-    border: 2px solid rgb(181, 181, 181);
     display: block;
     top:50%;
     left:50%;
@@ -16,8 +15,8 @@ html{
 
 }
 .zona {
-    width: 640px;
-    height: 640px;
+    width: 840px;
+    height: 840px;
 }
 #fondo {
     position: fixed;

@@ -1,5 +1,5 @@
 
-export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode){
+export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster){
     const SPEED = 6;
     let typeBullet = Bullet;
     let Smovimento = false;
@@ -33,6 +33,7 @@ export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode){
                 break;
             case ' ':
                 audioBone.play();
+                audioBlaster.play();
                 soul.fire();
                 break;
             case 'q':

@@ -1,9 +1,11 @@
-import {audioBattle,audioBone,audioDamage,spazioBack,soulImage,boneImage,background,audioSoulmode} from "./assets.js";
+import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneImage,background,audioSoulmode,audioBlaster} from "./assets.js";
 import {Bullet, whiteBone,bone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
 import { setInputs } from "./commands.js";
-setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode);
+
+battleSong.play();
+setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster);
 //nemici
 class Enemy{
     
@@ -57,23 +59,59 @@ function drawHitbox(ctx, obj) {
 }
 
 //let timegiro=0;
+let angle=0;
+
 function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
-    ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
-    ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
-    box.draw(ctx);
-    bone.draw(ctx);
-    soul.draw(ctx)
-    drawHitbox(ctx,bone)
-    drawHitbox(ctx,soul)
-    //let now=Date.now();
-    //if (now-timegiro>1000){
-    //    box.angle+=1;
-    //    timegiro=now;                    
-    //} ;
-    ctx.restore();//cosi ritornano allo stato iniziale
-    soul.move(ctx);
-    requestAnimationFrame(draw);
+    if (battleSong.currentTime<10.6){
+        //intro
+        console.log(battleSong.currentTime);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
+        ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
+        ctx.rotate(angle); // angolo 0 pero lo cambiaro en seguito
+        angle += 0.03;
+        box.draw(ctx);
+        //let now=Date.now();
+        //if (now-timegiro>1000){
+        //    box.angle+=1;
+        //    timegiro=now;                    
+        //} ;
+        ctx.restore();//cosi ritornano allo stato iniziale
+        soul.x=500;
+        soul.y=600;
+        soul.draw(ctx)
+        requestAnimationFrame(draw);
+
+    };
+    if (battleSong.currentTime>10.6){
+        //intro 2
+        if(box.width<700)box.width+=20;
+        if(soul.mode==="red"){
+            soul.x=0;
+            soul.y=0;
+            soul.mode="blue"
+            audioSoulmode.play();
+
+        }
+        console.log(battleSong.currentTime);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
+        ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
+        ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
+        box.draw(ctx);
+        bone.draw(ctx);
+        soul.draw(ctx);
+        drawHitbox(ctx,bone)
+        drawHitbox(ctx,soul)
+        drawHitbox(ctx,whiteBone)
+        //let now=Date.now();
+        //if (now-timegiro>1000){
+        //    box.angle+=1;
+        //    timegiro=now;                    
+        //} ;
+        ctx.restore();//cosi ritornano allo stato iniziale
+        soul.move(ctx);
+        requestAnimationFrame(draw);
+    };
 }
 window.requestAnimationFrame(draw);
