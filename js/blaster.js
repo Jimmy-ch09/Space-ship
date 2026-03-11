@@ -8,7 +8,6 @@ constructor(x, y, angle) {
     this.angle=angle;
     this.timer=0;
     this.w=120; this.h=120;
-
     this.blastW=40; this.blastH=300; 
 
     this.state="charging"; // estado de carga y/o  disparo
@@ -53,8 +52,3 @@ draw(ctx) {
     }
 
 }
-
-// formula matematica 
-// dx=x2-x1;
-// dy=y2-y1;
-// angolo=atan2(dy,dx);

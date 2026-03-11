@@ -116,7 +116,7 @@ function draw() {
         bone.draw(ctx);
         soul.draw(ctx);
         updateboneAttacks();
-        updateblasterAttacks()
+        updateblasterAttacks()//non unziona
         bones.forEach(b => {
             b.move();
             b.draw(ctx);
