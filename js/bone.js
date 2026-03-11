@@ -58,21 +58,10 @@ export class whiteBone {
     }
 }
 
-export const bone={
-    x:0, y:0, w:30, h:100, 
-    vx:0, vy:0,
-    draw: function(ctx) {
-        this.x+=1;
-        ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h)
-
-
-    },
-}
-
-export class xBone {
+export class blueBone {
     x; y; vy; vx; w; h;
     constructor(x, y, vx, vy) {
-        this.w=16; this.h=50;
+        this.w=20; this.h=80;
         this.x=x; this.y=y;
         this.vx=vx; this.vy=vy;
     }
@@ -87,14 +76,13 @@ export class xBone {
         let top    = -box.height/2 + this.h/2;
         let bottom = box.height/2 - this.h/2;
 
-        if (this.x< left) this.x=left;
-        if (this.x> right) this.x=right;
+        //if (this.x< left) this.x=left;
+        //if (this.x> right) this.x=right;
         if (this.y< top) this.y=top;
         if (this.y> bottom) this.y=bottom;
-
         if (collision(this,soul)) {
             let now=Date.now();
-            if (now-soul.timerHit>100){
+            if (now-soul.timerHit>50){
                 soul.hp-=1;
                 soul.timerHit=now;
                 console.log(soul.hp,soul.timerHit);
@@ -107,4 +95,15 @@ export class xBone {
         
         //collisione per sparire ora per sparire
     }
+}
+
+export const bone={
+    x:0, y:0, w:30, h:100, 
+    vx:0, vy:0,
+    draw: function(ctx) {
+        this.x+=1;
+        ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h)
+
+
+    },
 }

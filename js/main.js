@@ -4,6 +4,7 @@ import {box} from "./caja.js";
 import {soul} from "./soul.js";
 import { jumpAttack } from "./jumpattack.js";
 import { setInputs } from "./commands.js";
+import { blasterAttack } from "./blasterattack.js";
 
 battleSong.play();
 setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster,audioHeal);
@@ -49,12 +50,22 @@ let angle=0;
 let bones=[];
 let lastAttack = 0;
 
-function updateAttacks() {
-
+function updateboneAttacks() {
     let now = Date.now();
 
     if (now - lastAttack > 1000) {
         jumpAttack(bones);
+        lastAttack = now;
+    }
+
+}
+
+let blasters=[];
+function updateblasterAttacks() {
+    let now = Date.now();
+
+    if (now - lastAttack > 1000) {
+        blasterAttack(blasters);
         lastAttack = now;
     }
 
@@ -104,7 +115,8 @@ function draw() {
         box.draw(ctx);
         bone.draw(ctx);
         soul.draw(ctx);
-        updateAttacks();
+        updateboneAttacks();
+        updateblasterAttacks()
         bones.forEach(b => {
             b.move();
             b.draw(ctx);
