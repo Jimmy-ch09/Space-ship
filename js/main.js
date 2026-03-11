@@ -3,6 +3,7 @@ import {Bullet, whiteBone,bone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
 import { jumpAttack } from "./jumpattack.js";
+import { introdrawHP,drawHP } from "./healthbar.js";
 import { setInputs } from "./commands.js";
 import { blasterAttack } from "./blasterattack.js";
 
@@ -79,6 +80,7 @@ function draw() {
         //intro
         console.log(battleSong.currentTime);
         ctx.clearRect(0,0,canvas.width,canvas.height);
+        introdrawHP(ctx, soul);
         ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
         ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
         ctx.rotate(angle); // angolo 0 pero lo cambiaro en seguito
@@ -92,8 +94,7 @@ function draw() {
         ctx.restore();//cosi ritornano allo stato iniziale
         soul.x=500;
         soul.y=600;
-        soul.draw(ctx)
-        drawHitbox(ctx,soul)
+        soul.draw(ctx);
         requestAnimationFrame(draw);
 
     };
@@ -115,6 +116,7 @@ function draw() {
         box.draw(ctx);
         bone.draw(ctx);
         soul.draw(ctx);
+        drawHP(ctx, soul,false);
         updateboneAttacks();
         updateblasterAttacks()//non unziona
         bones.forEach(b => {

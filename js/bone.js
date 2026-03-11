@@ -43,7 +43,7 @@ export class whiteBone {
         if (this.y> bottom) this.y=bottom;
         if (collision(this,soul)) {
             let now=Date.now();
-            if (now-soul.timerHit>100){
+            if (now-soul.timerHit>50){
                 soul.hp-=1;
                 soul.timerHit=now;
                 console.log(soul.hp,soul.timerHit);
