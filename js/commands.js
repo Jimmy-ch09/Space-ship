@@ -9,12 +9,12 @@ export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audio
             case 'a':
             case 'ArrowLeft':
                 soul.vx=-SPEED;
-                Smovimento=true;
+                soul.state=true;
                 break;
             case 'd':
             case 'ArrowRight':
                 soul.vx=SPEED;
-                Smovimento=true;
+                soul.state=true;
                 break;
             case 'w':
             case 'ArrowUp':
@@ -29,7 +29,7 @@ export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audio
             case 's':
             case 'ArrowDown':
                 soul.vy=SPEED;
-                Smovimento=true;
+                soul.state=true;
                 break;
             case ' ':
                 audioBone.play();
@@ -70,23 +70,23 @@ export function setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audio
             case 'a':
             case 'ArrowLeft':
                 if (soul.vx < 0) soul.vx = 0;
-                Smovimento=false;
+                soul.state=false;
                 break;
             case 'd':
             case 'ArrowRight':
                 if (soul.vx > 0) soul.vx = 0;
-                Smovimento=false;
+                soul.state=false;
                 break;
             case 'w':
             case 'ArrowUp':
                 if (soul.vy < 0) soul.vy = 0;
-                Smovimento=false;
+                soul.state=false;
                 soul.jumping = false;
                 break;
             case 's':
             case 'ArrowDown':
                 if (soul.vy > 0) soul.vy = 0;
-                Smovimento=false;
+                soul.state=false;
                 break;
         }
     });

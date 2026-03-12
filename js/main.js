@@ -1,8 +1,8 @@
-import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneImage,background,audioSoulmode,audioBlaster,audioHeal} from "./assets.js";
-import {Bullet, whiteBone,bone} from "./bone.js";
+import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneImage,background,audioSoulmode,audioBlaster,audioHeal, bsoulImage,fight,act,item,mercy} from "./assets.js";
+import {Bullet, whiteBone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
-import { jumpAttack } from "./jumpattack.js";
+import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft } from "./jumpattack.js";
 import { introdrawHP,drawHP } from "./healthbar.js";
 import { setInputs } from "./commands.js";
 import { blasterAttack } from "./blasterattack.js";
@@ -19,11 +19,28 @@ const ctx = canvas.getContext("2d");
 
 //stato nel gioco/soul
 const hp=92;
-const typeSoul=["images/soul.png","images/bsoul.png"];
 
 function randomInt(a, b) {
     return Math.floor(Math.random() * (b - a + 1)) + a;
-}  
+
+}
+
+
+
+const video = document.getElementById("introVideo");
+let videoPlayed = false;
+
+function updateVideo(){
+    if (battleSong.currentTime > 12 && !videoPlayed){
+        video.style.display = "block";
+        video.muted = true;
+        video.play().catch(e => console.log(e));
+        videoPlayed = true;
+    }
+}
+
+
+console.log("waos");
 //Presa dei movimenti (aggiustato)
 
 
@@ -55,7 +72,7 @@ function updateboneAttacks() {
     let now = Date.now();
 
     if (now - lastAttack > 1000) {
-        jumpAttack(bones);
+        boneWall(bones);
         lastAttack = now;
     }
 
@@ -72,7 +89,13 @@ function updateblasterAttacks() {
 
 }
 
-
+const attacks = [
+    {time:12.7, done:false, action:()=>hightblueboneleft(bones)},
+    {time:23.7, done:false, action:()=>jumpAttack(bones)},
+    {time:23.8, done:false, action:()=>hightbluebone(bones)},
+    {time:12.8, done:false, action:()=>hightbluebone(bones)},
+    {time:13.8, done:false, action:()=>hightbluebone(bones)},
+];
 
 
 function draw() {
@@ -80,7 +103,7 @@ function draw() {
         //intro
         console.log(battleSong.currentTime);
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        introdrawHP(ctx, soul);
+        if (battleSong.currentTime>5.3)introdrawHP(ctx, soul,battleSong.currentTime,fight, act, item, mercy);
         ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
         ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
         ctx.rotate(angle); // angolo 0 pero lo cambiaro en seguito
@@ -94,16 +117,20 @@ function draw() {
         ctx.restore();//cosi ritornano allo stato iniziale
         soul.x=500;
         soul.y=600;
-        soul.draw(ctx);
+        if (battleSong.currentTime>7.3)soul.draw(ctx,soulImage);
         requestAnimationFrame(draw);
 
     };
+
+
     if (battleSong.currentTime>10.6){
+        updateVideo()
         //intro 2
         if(box.width<700)box.width+=20;
         if(soul.mode==="red"){
             soul.x=0;
             soul.y=0;
+            soul.k=1;
             soul.mode="blue"
             audioSoulmode.play();
 
@@ -114,11 +141,14 @@ function draw() {
         ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
         ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
         box.draw(ctx);
-        bone.draw(ctx);
-        soul.draw(ctx);
-        drawHP(ctx, soul,false);
-        updateboneAttacks();
-        updateblasterAttacks()//non unziona
+        soul.draw(ctx,bsoulImage);
+        drawHP(ctx, soul,fight, act, item, mercy);
+        attacks.forEach(a=>{
+            if (battleSong.currentTime > a.time && !a.done){
+                a.action();
+                a.done = true;
+            }
+        });
         bones.forEach(b => {
             b.move();
             b.draw(ctx);
@@ -132,5 +162,6 @@ function draw() {
         soul.move(ctx);
         requestAnimationFrame(draw);
     };
+    if (battleSong.currentTime>23.9);
 }
 window.requestAnimationFrame(draw);

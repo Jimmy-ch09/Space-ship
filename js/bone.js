@@ -1,4 +1,4 @@
-import {audioBattle,audioBone,audioDamage,spazioBack,soulImage,boneImage,background} from "./assets.js";
+import {audioBattle,audioBone,audioDamage,spazioBack,soulImage,boneImage, blueboneImage,background} from "./assets.js";
 import { collision } from "./colisiones.js";
 import { box } from "./caja.js";
 import { soul } from "./soul.js";
@@ -20,13 +20,15 @@ export class Bullet {
 }
 //da separare
 export class whiteBone {
-    x; y; vy; vx; w; h;
-    constructor(x, y, vx, vy) {
-        this.w=20; this.h=80;
+    x; y; vy; vx; w; h; hmax;
+    constructor(x, y, vx, vy, h,hmax) {
+        this.w=20; this.h=h;
         this.x=x; this.y=y;
         this.vx=vx; this.vy=vy;
+        this.hmax=hmax;
     }
     draw(ctx) {
+        if (this.h<this.hmax)this.h+=2;
         ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
     }
     move() {
@@ -60,13 +62,13 @@ export class whiteBone {
 
 export class blueBone {
     x; y; vy; vx; w; h;
-    constructor(x, y, vx, vy) {
-        this.w=20; this.h=80;
+    constructor(x, y, vx, vy,h) {
+        this.w=20; this.h=h;
         this.x=x; this.y=y;
         this.vx=vx; this.vy=vy;
     }
     draw(ctx) {
-        ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
+        ctx.drawImage(blueboneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
     }
     move() {
         this.x += this.vx;
@@ -82,7 +84,7 @@ export class blueBone {
         if (this.y> bottom) this.y=bottom;
         if (collision(this,soul)) {
             let now=Date.now();
-            if (now-soul.timerHit>50){
+            if (now-soul.timerHit>10 && soul.state==true){
                 soul.hp-=1;
                 soul.timerHit=now;
                 console.log(soul.hp,soul.timerHit);
@@ -95,15 +97,4 @@ export class blueBone {
         
         //collisione per sparire ora per sparire
     }
-}
-
-export const bone={
-    x:0, y:0, w:30, h:100, 
-    vx:0, vy:0,
-    draw: function(ctx) {
-        this.x+=1;
-        ctx.drawImage(boneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h)
-
-
-    },
 }

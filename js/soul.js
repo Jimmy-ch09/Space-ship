@@ -1,16 +1,16 @@
-import {audioBattle,audioBone,audioDamage,spazioBack,soulImage,boneImage,background} from "./assets.js";
+import {audioBattle,audioBone,audioDamage,spazioBack,soulImage,bsoulImage,boneImage,background} from "./assets.js";
 import {box} from "./caja.js";
-import { bone,Bullet, whiteBone } from "./bone.js";
+import {Bullet, whiteBone } from "./bone.js";
 import { collision } from "./colisiones.js";
 export const soul = {
     x:0, y:0, w:35, h:35, 
-    vx:0, vy:0,hp:92,maxHp:92, timerHit:0, heal:3,
+    vx:0, vy:0,hp:92,maxHp:92, timerHit:0, heal:3,state:false,
     //modo azul
-    mode:"red", gravity:0.35, jumpPower:-7.5, jumpHoldForce:-0.3, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
+    mode:"red", gravity:0.35, jumpPower:-8, jumpHoldForce:-0.3, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
 
     bullets:[],//forse ancora utile
-    draw: function(ctx) {
-        ctx.drawImage(soulImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
+    draw: function(ctx,images) {
+        ctx.drawImage(images, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
         this.bullets.forEach( (y)=>{
             y.draw(ctx);
         } );
@@ -48,19 +48,6 @@ export const soul = {
         } else {
             this.onGround = false;
         }
-
-        if (collision(this,bone)) {
-            let now=Date.now();
-            if (now-this.timerHit>50){ 
-                this.hp-=1;
-                this.timerHit=now;
-                console.log(this.hp,this.timerHit);
-                let sound = audioDamage.cloneNode();
-                sound.play();
-                if (this.hp==0) alert("Game over");
-            };                  
-
-        } ;
         this.bullets.forEach( (y)=>{
             y.move(ctx);
             
