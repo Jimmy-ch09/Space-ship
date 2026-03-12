@@ -56,7 +56,7 @@ let angle=0;
 let bones=[];
 let lastAttack = 0;
 
-function updateboneAttacks(attack) {
+function updateAttacks(attack) {
     let now = Date.now();
 
     if (now - lastAttack > 1000) {
