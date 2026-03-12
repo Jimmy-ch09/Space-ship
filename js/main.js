@@ -2,7 +2,7 @@ import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneIm
 import {Bullet, whiteBone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
-import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft } from "./jumpattack.js";
+import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft,leftcenterjumpattack } from "./jumpattack.js";
 import { introdrawHP,drawHP } from "./healthbar.js";
 import { setInputs } from "./commands.js";
 import { blasterAttack } from "./blasterattack.js";
@@ -90,16 +90,18 @@ function updateblasterAttacks() {
 }
 
 const attacks = [
-    {time:12.7, done:false, action:()=>hightblueboneleft(bones)},
+    {time:12.7, done:false, action:()=>leftcenterjumpattack(bones)},
+    {time:13.7, done:false, action:()=>leftcenterjumpattack(bones)},
+    {time:14.7, done:false, action:()=>leftcenterjumpattack(bones)},
     {time:23.7, done:false, action:()=>jumpAttack(bones)},
-    {time:23.8, done:false, action:()=>hightbluebone(bones)},
-    {time:12.8, done:false, action:()=>hightbluebone(bones)},
-    {time:13.8, done:false, action:()=>hightbluebone(bones)},
+    {time:23.8, done:false, action:()=>hightbluebone(bones)}
 ];
 
 
 function draw() {
+    updateVideo()
     if (battleSong.currentTime<10.6){
+
         //intro
         console.log(battleSong.currentTime);
         ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -124,7 +126,6 @@ function draw() {
 
 
     if (battleSong.currentTime>10.6){
-        updateVideo()
         //intro 2
         if(box.width<700)box.width+=20;
         if(soul.mode==="red"){

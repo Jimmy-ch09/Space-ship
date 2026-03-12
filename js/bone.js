@@ -61,13 +61,15 @@ export class whiteBone {
 }
 
 export class blueBone {
-    x; y; vy; vx; w; h;
-    constructor(x, y, vx, vy,h) {
+    x; y; vy; vx; w; h;hmax;
+    constructor(x, y, vx, vy,h,hmax) {
         this.w=20; this.h=h;
         this.x=x; this.y=y;
         this.vx=vx; this.vy=vy;
+        this.hmax=hmax
     }
     draw(ctx) {
+        if (this.h<this.hmax)this.h+=2;
         ctx.drawImage(blueboneImage, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
     }
     move() {

@@ -14,6 +14,17 @@ export function jumpAttack(bones) {
     bones.push(new whiteBone(box.width/2, y, -10, 0,30,120));
 
 }
+export function leftcenterjumpattack(bones) {
+
+    let y = box.height/2 + 60;
+    audioBone.play();
+
+    // hueso izquierda
+    bones.push(new whiteBone(-box.width/2, y-box.height/2-box.height/2, 10, 0,box.height/2,box.height/2));
+
+    bones.push(new whiteBone(-box.width/2, y, 10, 0,40,40));
+
+}
 
 export function jumpAttackblue(bones) {
     audioBone.play();
@@ -42,7 +53,7 @@ export function boneWall(bones){
     let y = box.height/2 + 60;
 
     for(let i=-3;i<=3;i++){
-        bones.push(new whiteBone(i*box.width/2, y, -2,0));
+        bones.push(new whiteBone(box.width/2+40, y, -2,0));
     }
 
 }
@@ -50,7 +61,7 @@ export function boneWall(bones){
 export function hightblueboneleft(bones){
     audioBone.play();
     let y = box.height/2;
-    bones.push(new blueBone(-box.width/2, y, 20, 0, 180));
-
+    bones.push(new whiteBone(-box.width/2, y-box.height/2-box.height/4, 20, 0,box.height/2+box.height/4 ,box.height/2+box.height/4));
 
 }
+
