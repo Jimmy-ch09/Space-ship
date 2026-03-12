@@ -2,7 +2,7 @@ import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneIm
 import {Bullet, whiteBone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
-import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft,leftcenterjumpattack } from "./jumpattack.js";
+import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft,leftcenterjumpattack, centerjumpattack } from "./jumpattack.js";
 import { introdrawHP,drawHP } from "./healthbar.js";
 import { setInputs } from "./commands.js";
 import { blasterAttack } from "./blasterattack.js";
@@ -26,18 +26,6 @@ function randomInt(a, b) {
 }
 
 
-
-const video = document.getElementById("introVideo");
-let videoPlayed = false;
-
-function updateVideo(){
-    if (battleSong.currentTime > 12 && !videoPlayed){
-        video.style.display = "block";
-        video.muted = true;
-        video.play().catch(e => console.log(e));
-        videoPlayed = true;
-    }
-}
 
 
 console.log("waos");
@@ -68,11 +56,11 @@ let angle=0;
 let bones=[];
 let lastAttack = 0;
 
-function updateboneAttacks() {
+function updateboneAttacks(attack) {
     let now = Date.now();
 
     if (now - lastAttack > 1000) {
-        boneWall(bones);
+        attack(bones);
         lastAttack = now;
     }
 
@@ -91,15 +79,14 @@ function updateblasterAttacks() {
 
 const attacks = [
     {time:12.7, done:false, action:()=>leftcenterjumpattack(bones)},
-    {time:13.7, done:false, action:()=>leftcenterjumpattack(bones)},
-    {time:14.7, done:false, action:()=>leftcenterjumpattack(bones)},
+    {time:13.7, done:false, action:()=>centerjumpattack(bones)},
+    {time:14.7, done:false, action:()=>centerjumpattack(bones)},
     {time:23.7, done:false, action:()=>jumpAttack(bones)},
     {time:23.8, done:false, action:()=>hightbluebone(bones)}
 ];
 
 
 function draw() {
-    updateVideo()
     if (battleSong.currentTime<10.6){
 
         //intro
