@@ -58,11 +58,13 @@ let lastAttack = 0;
 
 function updateAttacks(attack) {
     let now = Date.now();
-
-    if (now - lastAttack > 1000) {
+    for (let index = 0; index < 10; index++) {
+        if (now - lastAttack > 500) {
         attack(bones);
         lastAttack = now;
     }
+    }
+
 
 }
 
@@ -84,10 +86,14 @@ const attacks = [
     {time:23.7, done:false, action:()=>jumpAttack(bones)},
     {time:24.3, done:false, action:()=>hightbluebone(bones)},
     {time:25.3, done:false, action:()=>simpleTallBone(bones)},
+    {time:35.7, done:false, action:()=>hightbluebone(bones)},
     {time:25.7, done:false, action:()=>jumpAttack(bones)},
+    
 ];
-
-
+let imagesoul=[soulImage,bsoulImage];
+let ima=0;
+let lastgiro=0;
+let change=false;
 function draw() {
     if (battleSong.currentTime<10.6){
 
@@ -108,7 +114,10 @@ function draw() {
         ctx.restore();//cosi ritornano allo stato iniziale
         soul.x=500;
         soul.y=600;
-        if (battleSong.currentTime>7.3)soul.draw(ctx,soulImage);
+        if (battleSong.currentTime>7.3) {
+            console.log(ima);
+            soul.draw(ctx,soulImage);
+        }
         requestAnimationFrame(draw);
 
     };
@@ -117,10 +126,11 @@ function draw() {
     if (battleSong.currentTime>10.6){
         //intro 2
         if(box.width<700)box.width+=20;
-        if(soul.mode==="red"){
+        if(soul.mode==="red" && !change){
             soul.x=0;
             soul.y=0;
-            soul.k=1;
+            change=true
+            ima=1;
             soul.mode="blue"
             audioSoulmode.play();
 
@@ -140,12 +150,18 @@ function draw() {
             video.style.display="none";
         }
         box.draw(ctx);
-        if(battleSong.currentTime>23.3 && battleSong.currentTime<28.3){
+        if(battleSong.currentTime>26.3 && battleSong.currentTime<33.3){
+            updateAttacks(centerjumpattack);
             let now = Date.now();
             if (now - lastgiro > 100) {
                 lastgiro = now;
-                box.angle=0.5;
+                box.angle+=0.03;
             }
+        }
+        if (battleSong.currentTime>31.3){
+            audioSoulmode.play();
+            ima=0;
+            soul.mode="red";
         }
         else{box.angle=0;}
         soul.draw(ctx,bsoulImage);
