@@ -2,7 +2,7 @@ import {audioBattle,battleSong,audioBone,audioDamage,spazioBack,soulImage,boneIm
 import {Bullet, whiteBone} from "./bone.js";
 import {box} from "./caja.js";
 import {soul} from "./soul.js";
-import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft,leftcenterjumpattack, centerjumpattack } from "./jumpattack.js";
+import { jumpAttack,hightbluebone,jumpAttackblue, boneWall, hightblueboneleft,leftcenterjumpattack, centerjumpattack, simpleTallBone } from "./jumpattack.js";
 import { introdrawHP,drawHP } from "./healthbar.js";
 import { setInputs } from "./commands.js";
 import { blasterAttack } from "./blasterattack.js";
@@ -10,12 +10,11 @@ import { blasterAttack } from "./blasterattack.js";
 battleSong.play();
 setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster,audioHeal);
 //nemici
-class Enemy{
-    
-    
-}
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
+const video=document.getElementById("introVideo");
 
 //stato nel gioco/soul
 const hp=92;
@@ -52,6 +51,7 @@ function drawHitbox(ctx, obj) {
 }
 
 //let timegiro=0;
+let incio=false;
 let angle=0;
 let bones=[];
 let lastAttack = 0;
@@ -82,7 +82,9 @@ const attacks = [
     {time:13.7, done:false, action:()=>centerjumpattack(bones)},
     {time:14.7, done:false, action:()=>centerjumpattack(bones)},
     {time:23.7, done:false, action:()=>jumpAttack(bones)},
-    {time:23.8, done:false, action:()=>hightbluebone(bones)}
+    {time:24.3, done:false, action:()=>hightbluebone(bones)},
+    {time:25.3, done:false, action:()=>simpleTallBone(bones)},
+    {time:25.7, done:false, action:()=>jumpAttack(bones)},
 ];
 
 
@@ -128,7 +130,24 @@ function draw() {
         ctx.save();//modo o sistema di salvataggio della box e soul per poterli muovere in seguito
         ctx.translate(box.x, box.y);//muove il centro del canvas cio dove le x e y = 0
         ctx.rotate(box.angle); // angolo 0 pero lo cambiaro en seguito
+        if (battleSong.currentTime>20.3 && !incio){
+            video.style.display="block";
+            video.currentTime=0;
+            video.play();
+            incio=true;
+        };
+        video.onended=()=>{
+            video.style.display="none";
+        }
         box.draw(ctx);
+        if(battleSong.currentTime>23.3 && battleSong.currentTime<28.3){
+            let now = Date.now();
+            if (now - lastgiro > 100) {
+                lastgiro = now;
+                box.angle=0.5;
+            }
+        }
+        else{box.angle=0;}
         soul.draw(ctx,bsoulImage);
         drawHP(ctx, soul,fight, act, item, mercy);
         attacks.forEach(a=>{
@@ -150,6 +169,5 @@ function draw() {
         soul.move(ctx);
         requestAnimationFrame(draw);
     };
-    if (battleSong.currentTime>23.9);
 }
 window.requestAnimationFrame(draw);

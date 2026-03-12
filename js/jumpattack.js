@@ -36,7 +36,7 @@ export function centerjumpattack(bones,x,vx,h,hmax){
 -box.width/2
 
 //basic bone
-function simpleShortBone(bones,x,vx,h,hmax){
+export function simpleShortBone(bones,x,vx,h,hmax){
     if (h==null)h=40;
     if (hmax==null)hmax=40;
     let y = box.height/2 + 60;
@@ -44,7 +44,10 @@ function simpleShortBone(bones,x,vx,h,hmax){
 
 }
 
-function simpleTallBone(bones,x,vx){
+export function simpleTallBone(bones,x,vx){
+    audioBone.play();
+    if(vx==null)vx=10;
+    if(x==null)x=-box.width/2;
     let y = box.height/2 + 60;
     bones.push(new whiteBone(x, y-box.height/2-box.height/2,vx, 0,box.height/2,box.height/2));
 }
