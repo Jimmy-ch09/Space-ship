@@ -90,8 +90,7 @@ const attacks = [
     {time:25.7, done:false, action:()=>jumpAttack(bones)},
     
 ];
-let imagesoul=[soulImage,bsoulImage];
-let ima=0;
+let i=0;
 let lastgiro=0;
 let change=false;
 function draw() {
@@ -115,8 +114,7 @@ function draw() {
         soul.x=500;
         soul.y=600;
         if (battleSong.currentTime>7.3) {
-            console.log(ima);
-            soul.draw(ctx,soulImage);
+            soul.draw(ctx);
         }
         requestAnimationFrame(draw);
 
@@ -130,7 +128,6 @@ function draw() {
             soul.x=0;
             soul.y=0;
             change=true
-            ima=1;
             soul.mode="blue"
             audioSoulmode.play();
 
@@ -158,13 +155,14 @@ function draw() {
                 box.angle+=0.03;
             }
         }
-        if (battleSong.currentTime>31.3){
+        else{box.angle=0;}
+        
+        if (battleSong.currentTime>31.3 && i==0){
+            i+=1;
             audioSoulmode.play();
-            ima=0;
             soul.mode="red";
         }
-        else{box.angle=0;}
-        soul.draw(ctx,bsoulImage);
+        soul.draw(ctx);
         drawHP(ctx, soul,fight, act, item, mercy);
         attacks.forEach(a=>{
             if (battleSong.currentTime > a.time && !a.done){

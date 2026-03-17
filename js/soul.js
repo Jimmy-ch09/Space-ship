@@ -9,8 +9,11 @@ export const soul = {
     mode:"red", gravity:0.35, jumpPower:-8, jumpHoldForce:-0.3, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
 
     bullets:[],//forse ancora utile
-    draw: function(ctx,images) {
-        ctx.drawImage(images, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
+    draw: function(ctx) {
+        let img;
+        if (this.mode==="red")img = soulImage;
+        if (this.mode==="blue")img = bsoulImage;
+        ctx.drawImage(img, this.x - this.w/2, this.y - this.h/2, this.w, this.h);
         this.bullets.forEach( (y)=>{
             y.draw(ctx);
         } );

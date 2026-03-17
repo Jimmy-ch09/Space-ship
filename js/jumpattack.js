@@ -29,8 +29,8 @@ export function leftcenterjumpattack(bones,x,vx,h,hmax) {
 export function centerjumpattack(bones,x,vx,h,hmax){
     if (x==null)x=-box.width/2;
     if (vx==null)vx=10;
-    leftcenterjumpattack(bones,x,vx)
-    leftcenterjumpattack(bones,-x,-vx)
+    leftcenterjumpattack(bones,x,vx,h,hmax)
+    leftcenterjumpattack(bones,-x,-vx,h,hmax)
 }
 
 -box.width/2
@@ -44,12 +44,14 @@ export function simpleShortBone(bones,x,vx,h,hmax){
 
 }
 
-export function simpleTallBone(bones,x,vx){
+export function simpleTallBone(bones,x,vx,h,hmax){
     audioBone.play();
     if(vx==null)vx=10;
     if(x==null)x=-box.width/2;
+    if (h==null)h=box.height/2;
+    if (hmax==null)hmax=box.height/2;
     let y = box.height/2 + 60;
-    bones.push(new whiteBone(x, y-box.height/2-box.height/2,vx, 0,box.height/2,box.height/2));
+    bones.push(new whiteBone(x, y-box.height/2-box.height/2,vx, 0,h,hmax));
 }
 
 export function jumpAttackblue(bones) {
