@@ -6,7 +6,7 @@ export const soul = {
     x:0, y:0, w:35, h:35, 
     vx:0, vy:0,hp:92,maxHp:92, timerHit:0, heal:3,state:false,
     //modo azul
-    mode:"red", gravity:0.35, jumpPower:-8, jumpHoldForce:-0.3, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
+    mode:"red", gravity:0.35, jumpPower:-6, jumpHoldForce:-0.3, jumpHoldTime:0, jumpHoldMax:18, jumping:false, onGround:false,
 
     bullets:[],//forse ancora utile
     draw: function(ctx) {
