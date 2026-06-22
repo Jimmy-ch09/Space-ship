@@ -1,4 +1,4 @@
-import {audioBattle,audioBone,audioDamage,spazioBack,soulImage,boneImage, blueboneImage,background} from "./assets.js";
+import {audioBattle,audioBone,audioDamage,soulImage,boneImage, blueboneImage,background} from "./assets.js";
 import { collision } from "./colisiones.js";
 import { box } from "./caja.js";
 import { soul } from "./soul.js";
