@@ -7,7 +7,7 @@ import { introdrawHP,drawHP } from "./healthbar.js";
 import { setInputs } from "./commands.js";
 import { blasterAttack } from "./blasterattack.js";
 
-battleSong.play();
+document.addEventListener("mouseenter", () => battleSong.play(), { once: true });
 setInputs(soul, audioBone, Bullet, whiteBone,audioSoulmode,audioBlaster,audioHeal);
 //nemici
 
