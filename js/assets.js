@@ -7,8 +7,7 @@ export const audioBlaster= new Audio("sounds/gaster-blaster-sound.mp3");
 export const battleSong= new Audio("sounds/twisted-reality.mp3");
 export const audioHeal= new Audio("sounds/heal-sound.mp3");
 //Immagini
-export const spazioBack=new Image();
-spazioBack.src="Backgrounds/Stars_background_Black.png"//fondo
+
 
 export const soulImage = new Image();
 soulImage.src="images/soul.png";//soul
